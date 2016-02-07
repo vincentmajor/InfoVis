@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <title>
+        Major - Week 1 HTML and CSS lab
+        </title>
+        <style>
+            body {
+                margin: 0px;
+                padding: 20px;
+            }
+            h1 {
+                background-color: black;
+                color: white;
+                padding: 20px;
+            }
+            h2 {
+                font-weight: bold;
+            }
+            ul li {
+                list-style: none;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id="Title">
+        Gapiminder - Weath and Health of Nations
+        </h1>
+        <div>
+            <h2>
+                Countries
+            </h2>
+            <label>Name: </label>
+            <input type="text" id="textInput"/>
+            <button onclick="logCountry();">
+                Add
+            </button>
+            <hr>
+            <ul id="log">
+            </ul>
+        </div>
+    </body>
+    <script>
+        var newCountry = "This is the new title";
+        
+        function logCountry(newCountry) {
+            if(!newCountry) {
+                var newCountry = document.getElementById("textInput").value
+            }
+            var log = document.getElementById("log");
+            var newEntry = document.createElement("li");
+            newEntry.innerHTML = newCountry;
+            log.appendChild(newEntry);
+        }
+	
+    </script>
+    
+</html>
