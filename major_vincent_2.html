@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <title>
+        Major - Week 2 D3 lab
+        </title>
+        <style>
+            body {
+                margin: 0px;
+                padding: 20px;
+            }
+            h1 {
+                background-color: black;
+                color: white;
+                padding: 20px;
+            }
+            h2 {
+                font-weight: bold;
+            }
+            ul li {
+                list-style: none;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id="Title">
+        Gapminder - Weath and Health of Nations
+        </h1>
+        <h2>
+            Countries
+        </h2>
+        <div id="CountryList">
+        </div>
+    </body>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script>
+    //My Code
+        var CountryList = d3.select("#CountryList");
+        //CountryList.text("D3.js");
+        
+        var Countries = [1,2,5,8,6,7,9];
+        
+        d3.json("http://raw.githubusercontent.com/CristianFelix/infoviz/master/gapminder.json", function(error, result) {
+            Countries = result;
+            render();
+            //console.log(result)
+            //console.log(error)
+            //Definitely loading perfect
+        })
+
+
+        
+        function render() {
+            var changes = CountryList.selectAll("div").data(Countries, function(d) { return d.name });
+            
+            changes.enter()
+                    .append("div")
+                    .text(function(d) { return d.name }); 
+        }
+    
+        console.log(Countries)
+    </script>
+    
+    
+</html>

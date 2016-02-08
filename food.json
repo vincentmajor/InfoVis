@@ -1,0 +1,24 @@
+[{
+    Food: "Apples",
+    Deliciousness: 9
+},
+{
+    Food: "Green beans",
+    Deliciousness: 5
+},
+{
+    Food: "Egg Salad Sandwhich",
+    Deliciousness: 4
+},
+{
+    Food: "Cookies",
+    Deliciousness: 10
+},
+{
+    Food: "Vegemite",
+    Deliciousness: 0.2
+},
+{
+    Food: "Burrito",
+    Deliciousness: 7
+}]

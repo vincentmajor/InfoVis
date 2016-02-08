@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <title>Gapminder Wealth and Health</title>
+        <style>
+            .item {
+                box-shadow: 10px 10px 10px #ccc;
+                width: 250px
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>D3</h1>
+        <input id="number" type="text" />
+        <button onclick="addNumber()">Add Number</button>
+        <div id="viz"></div>
+    </body>
+    
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script>
+        //My Code
+        var viz = d3.select("#viz");
+        viz.text("D3.js");
+        
+        var numbers = [1,2,5,8,6,7,9];
+        
+        d3.json("food.json", function(error, result) {
+            numbers = result;
+            render();
+        })
+        
+        function render() {
+            var changes = viz.selectAll("div").data(numbers, function(d) { return d.Food }); //selecting divs within viz tagged div, create new "div", using numbers
+            
+            changes.enter() // each new number, create a div, append the number and make changes, and define class item
+                    .append("div")
+                    .style("color", "red")
+
+                    .style({
+                        "background-color": "#ccc",
+                        border: "solid 1px #000"
+                    }).attr("class", "item")
+                    .text(function(d) { return d.Food }); //remove .Food for non-json
+            
+            changes.exit().remove(); // remove elements and remove from screen
+            
+            changes.on("click", function(d, i) {
+                // with every click, update data and render.
+                numbers.splice(i,1); //removing from i of length 1
+                render();
+            })
+        }
+        
+        //render(); if not loading json
+        
+        function addNumber() {
+            //d3.select("#number").property("value");
+            var newNumber = d3.select("#number").node().value;
+            numbers.push(newNumber);
+            render()
+        }
+    </script>
+</html>
