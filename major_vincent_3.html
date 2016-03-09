@@ -1,0 +1,100 @@
+<html>
+    <head>
+        <title>
+        Major - Week 3 D3 lab
+        </title>
+        <style>
+            body {
+                margin: 0px;
+                padding: 20px;
+            }
+            h1 {
+                background-color: black;
+                color: white;
+                padding: 20px;
+            }
+            h2 {
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id="Title">
+        Gapminder - Weath and Health of Nations
+        </h1>
+        <h2>
+            Countries
+        </h2>
+        <div id="CountryList" style="float:left">
+        </div>
+        <svg width = "600" height="400">
+            <rect width="600" height="400" fill = "none" stroke = "black" stroke-width="2"></rect>
+            <g id="dotGroup"></g>
+        </svg>
+    </body>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script>
+    //My Code
+        var CountryList = d3.select("#CountryList");
+        //CountryList.text("D3.js");
+        
+        var Countries = [1,2,5,8,6,7,9];
+        
+        d3.json("https://raw.githubusercontent.com/CristianFelix/infoviz/master/Week%203/newData.json", function(error, result) {
+            result = result.filter(function(d) {return d.income[2008] != undefined});
+            result = result.filter(function(d) {return d.lifeExpectancy[2008] != undefined});
+            result = result.filter(function(d) {return d.population[2008] != undefined});
+            Countries = result
+            render(Countries);
+        })
+
+        var viz = d3.select("#dotGroup");
+        
+        var width = 600,
+            height = 400,
+            margin = { top: 20, left: 20, right: 20, bottom: 20},
+            innerWidth = width - margin.left - margin.right,
+            innerHeight = height - margin.top - margin.bottom;
+        
+        var xScale = d3.scale.linear()
+            .range([0, innerWidth]),
+            yScale = d3.scale.linear()
+            .range([innerHeight, 0]),
+            markScale = d3.scale.sqrt()
+            .range([2, 20]);
+        
+        var colorscale = d3.scale.ordinal()
+            .domain(["Sub-Saharan Africa","South Asia","Middle East & North Africa", "America", "Europe & Central Asia", "East Asia & Pacific"])
+            //.range(["orange", "purple", "red", "blue", "green", "yellow"]);
+            .range(["blue", "orange", "green", "red", "purple", "brown"]);
+        
+        viz.attr("transform", 
+                 "translate(" + margin.left + "," + margin.top + ")")
+        
+        function render(Countries) {
+            var changes = CountryList.selectAll("div").data(Countries, function(d) { return d.name });
+            
+            changes.enter()
+                    .append("div")
+                    .text(function(d) { return d.name });
+            
+            var dataPoints = viz.selectAll("circle").data(Countries);
+            
+            xScale.domain(d3.extent(Countries, function(d) { return d.income[2008] }))
+            yScale.domain(d3.extent(Countries, function(d) { return d.lifeExpectancy[2008] }))
+            markScale.domain(d3.extent(Countries, function(d) { return d.population[2008] }))
+            
+            dataPoints.enter()
+                .append("circle")
+                .attr("r", function(d,i) {return markScale(d.population[2008])})
+                .attr("cx", function(d, i) {return xScale(d.income[2008]) })
+                .attr("cy", function(d, i) {return yScale(d.lifeExpectancy[2008]) })
+                .attr("fill", function(d, i) {return colorscale(d.region)})
+                .attr("opacity", 0.6)
+        }
+    
+        console.log(Countries)
+    </script>
+    
+    
+</html>
